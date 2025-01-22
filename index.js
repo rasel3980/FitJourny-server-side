@@ -64,7 +64,13 @@ async function run() {
     const result = await bookedCollection.findOne(filter);
     res.send(result);
   });
+  // applied trainer information
 
+  app.post("/trainer-apply", async (req, res) => {
+    const data = req.body;
+    const result = await appliedCollection.insertOne(data);
+    res.send(result);
+  });
 
     // jwt related api
     app.post("/jwt", async (req, res) => {
