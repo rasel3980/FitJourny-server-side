@@ -29,7 +29,14 @@ async function run() {
     // await client.connect();
 
     const trainersCollection = client.db("FitJourney").collection("trainers");
+    const classesCollection = client.db("FitJourney").collection("classes");
+    const bookedCollection = client.db("FitJourney").collection("booked");
+    const appliedCollection = client.db("FitJourney").collection("applied");
     // const reviewCollection = client.db("FitJourney").collection("reviews");
+    app.get('/class', async(req, res) =>{
+      const result = await classesCollection.find().toArray();
+      res.send(result);
+  })
 
     app.get('/trainer', async(req, res) =>{
       const result = await trainersCollection.find().toArray();
@@ -41,7 +48,16 @@ async function run() {
     const query = {_id: new ObjectId(id)};
     const result = await trainersCollection.findOne(query);
     res.send(result);
+    console.log("result",result);
+    console.log("id",id);
   })
+// trainer booked 
+  app.post("/trainer-booked", async (req, res) => {
+    const trainerBooked = req.body;
+    const result = await bookedCollection.insertOne(trainerBooked);
+    res.send(result);
+  });
+
 
     // jwt related api
     app.post("/jwt", async (req, res) => {
