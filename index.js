@@ -58,6 +58,13 @@ async function run() {
     res.send(result);
   });
 
+  app.get("/trainer-booked/:id", async (req, res) => {
+    const id = req.params.id;
+    const filter = { slotId: new ObjectId(id) };
+    const result = await bookedCollection.findOne(filter);
+    res.send(result);
+  });
+
 
     // jwt related api
     app.post("/jwt", async (req, res) => {
