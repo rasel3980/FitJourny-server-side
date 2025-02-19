@@ -35,10 +35,20 @@ async function run() {
     const subscribeCollection = client.db("FitJourney").collection("subscribe");
     const usersCollection = client.db("FitJourney").collection("users");
     // const reviewCollection = client.db("FitJourney").collection("reviews");
-    app.get('/class', async(req, res) =>{
-      const result = await classesCollection.find().toArray();
+    app.get('/class', async(req, res) => {
+      const sort = req.query.sort;
+      let sortOptions = {};
+      
+      if (sort === "asc") {
+        sortOptions = { price: 1 }; // Sort by price in ascending order
+      } else if (sort === "dsc") {
+        sortOptions = { price: -1 }; // Sort by price in descending order
+      }
+    
+      const result = await classesCollection.find({}).sort(sortOptions).toArray();
       res.send(result);
-  })
+    });
+    
 
   app.post('/add-class', async(req,res)=>{
     const newClass = req.body
